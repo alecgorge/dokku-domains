@@ -55,5 +55,6 @@ when 'help'
   puts <<-EOF
     domains <app>                                   display the domains for an app
     domains:set <app> DOMAIN1 [DOMAIN2 ...]         set one or more domains
+    domains:force_ssl <app> [yes|no]                force redirect from http to https on and off
   EOF
 end

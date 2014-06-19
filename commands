@@ -19,6 +19,7 @@ if cmd && cmd.start_with?("domains")
   
   approot = File.join(root, app)
   domainfile = File.join(approot, 'DOMAINS')
+  forcesslfile = File.join(approot, 'FORCE_SSL')
 
   fail "App #{app} does not exist" if !Dir.exist?(approot)
 
@@ -40,6 +41,15 @@ when 'domains:set'
   notice "Setting #{app} domains to: #{newdomains.join(" ")}"
   system "#{File.join(Pathname.new(__FILE__).dirname, 'nginx-pre-reload')} #{app}"
   system "sudo /etc/init.d/nginx reload"
+when 'domains:force_ssl'
+  should_force_ssl = ["yes", "on", "1", "true"].include?(ARGV[2].downcase)
+  notice "Redirect all http traffic to https #{app}: #{should_force_ssl}"
+  
+  if should_force_ssl
+    File.open(forcesslfile, "w") {}
+  else
+    File.delete(forcesslfile)
+  end
 when 'help'
   puts STDIN.read unless STDIN.tty?
   puts <<-EOF

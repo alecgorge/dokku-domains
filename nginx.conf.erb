@@ -5,8 +5,9 @@ server {
   listen      [::]:80;
   listen      80;
   server_name <%= hostname %>;
+  <% if force_ssl %>
   return 301 https://$host$request_uri;
-  <% if force_ssl == false %>
+  <% else %>
   location / {
     proxy_pass  http://<%= app %>;
     proxy_http_version 1.1;

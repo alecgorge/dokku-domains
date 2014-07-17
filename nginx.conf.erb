@@ -5,8 +5,8 @@ server {
   listen      [::]:80;
   listen      80;
   server_name <%= hostname %>;
-  add_header  Alternate-Protocol  443:npn-spdy/2;
   <% if force_ssl %>
+  add_header  Alternate-Protocol  443:npn-spdy/2;
   return 301 https://$host$request_uri;
   <% else %>
   location / {
